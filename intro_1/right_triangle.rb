@@ -1,12 +1,12 @@
 side = []
 puts "Введите сторону a: "
-side[0] = gets.chomp
+side[0] = gets.chomp.to_f
 
 puts "Введите сторону b: "
-side[1] = gets.chomp
+side[1] = gets.chomp.to_f
 
 puts "Введите сторону c: "
-side[2] = gets.chomp
+side[2] = gets.chomp.to_f
 storonq = side.sort
 
 if storonq[0] == storonq[1] && storonq[0] == storonq[2]

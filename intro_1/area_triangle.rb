@@ -1,10 +1,9 @@
-
 puts "Введите основание треуголиника"
-a = gets.chomp
+a = gets.chomp.to_i.to_f
 
 puts "Введите высоту треуголиника"
-h = gets.chomp
+h = gets.chomp.to_i.to_f
 
-p = (a.to_i * h.to_i)/2
+p = (a * h) / 2
 
 puts "Площадь треуголиника равна #{p}"
