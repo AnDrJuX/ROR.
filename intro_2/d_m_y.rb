@@ -16,5 +16,9 @@ end
 if month == 1
   puts day
 else
-  puts "Порядковый номер дня с начала года: #{months.take(month-1).inject(:+) + day}"
+  num = months.take(month - 1).inject(:+) + day
+  puts "Порядковый номер дня с начала года: #{num}"
 end
+
+
+
