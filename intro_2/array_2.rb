@@ -1,10 +1,7 @@
-arr = [0, 1]
-a = 0
+arr = [1, 1]
 
-while a <= 100
-  a = arr[arr.length - ((arr[2].to_i / 2) + 1)] + arr.last
+while (a = arr[-1] + arr[-2]) < 100
   arr << a
 end
 
 puts arr
-#144
