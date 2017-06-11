@@ -1,6 +1,5 @@
 class Station
-  attr_accessor :trains
-  attr_reader   :name
+  attr_reader :name, :trains
 
   def initialize(name)
     @name = name
@@ -10,7 +9,7 @@ class Station
 
   def add_train(train)
     self.trains << train
-     puts "Train #{train.number} added to the station #{self.name}."
+    puts "Train #{train.number} added to the station #{self.name}."
   end
 
   def current_trainlist
@@ -30,6 +29,7 @@ class Station
     self.trains.delete(train)
     puts "Train #{train} delete from the station #{self.name}."
   end
+
 end
 
 
@@ -60,20 +60,20 @@ end
 
 
 class Train
-  attr_accessor :wagons, :current_station_index, :route, :speed
-  attr_reader :number, :type
+  attr_accessor :route
+  attr_reader :number, :type, :wagons, :current_station_index, :speed
 
   def initialize(number:, type:, num_of_wagons:)
     @number = number
     @type = type
     @num_of_wagons = num_of_wagons
     @speed  = 0
-    @route  = nil
-    @current_station_index = nil
+    @route  = route
+    @current_station_index = current_station_index
   end
 
-  def set_speed=(speed)
-    self.speed = speed
+  def speed
+    self.speed += 30
   end
 
 
@@ -98,7 +98,7 @@ class Train
 
   def delete_wagons
     if speed == 0
-      self.num_of_wagons -= 1
+      self.num_of_wagons -= 1 until num_of_wagons.empty?
       puts "Number of wagons: #{self.num_of_wagons}"
     end
   end
