@@ -1,5 +1,5 @@
 class Wagon
-  attr_accessor :type
+  attr_reader :type
 
   def type
     @type = self.class.name

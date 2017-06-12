@@ -1,6 +1,7 @@
 class CargoTrain < Train
 
-  def initialize(number, type = "cargo")
+  def initialize(number:, type:)
+    @type = :cargo
     super
   end
 
@@ -11,5 +12,4 @@ class CargoTrain < Train
       puts "Only cargo wagons can be hooked to the freight train."
     end
   end
-
 end
