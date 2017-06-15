@@ -1,25 +1,23 @@
 class Route
-  attr_accessor :stations
-
-  def initialize(start:, finish:)
-    @stations = [start, finish]
-    puts "Route created: #{self}, from: #{start.title} to #{finish.title}."
+  attr_reader :route
+  def initialize(from, to)
+    @route = [from, to]
   end
 
-  def add_station(station)  #add_station_to_list
-    self.stations.insert(-2, station)
-    puts "Station #{station.title} added to the route #{self}."
+  def add_station(station)
+    @route.insert(-2, station)
   end
 
-  def delete_station(station) #delete_station_to_list
-    self.stations.delete(station)
-    puts "Station #{station.title} removed from the route #{self}."
-  end
-
-  def show_all_stations  #station_list
-    puts "Stations in the route:"
-    self.stations.each_with_index do |station, index|
-      puts "#{index}: #{station.title}"
+  def del_station(station)
+    if @route.include? station
+      @route.delete(station)
+    else
+      puts "Станции #{station} нет в маршруте!"
     end
   end
+
+  def get_station_list
+    @route.each { |e| puts e }
+  end
+
 end

@@ -1,5 +1,6 @@
-class PassengerWagon < Wagon
+class PassengerWagon
+  attr_reader :type
   def initialize
-    @type = :pass
+    @type = :passenger
   end
 end
