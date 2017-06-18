@@ -23,23 +23,20 @@ class Train
   end
 
   def hook(wagon)
-    if wagon.type == @type
-      @wagons << wagon
-    else
-      puts "Ошибка типа вагона!"
-    end
-
+    @wagons << wagon
+    puts "Вагон добавлен."
   end
 
   def unhook(wagon)
     if current_speed == 0 && wagons.size > 0
       @wagons.delete(wagon)
+      puts "Вагон отцеплен."
     end
   end
 
   def move_back
     if current_station != current_route.route.first
-      ind = current_route.index current_station
+      ind = current_route.route.index current_station
       @current_station = current_route.route[ind - 1]
     else
       puts "Станция #{@current_station} является отправной. Поезд не может двигаться назад"

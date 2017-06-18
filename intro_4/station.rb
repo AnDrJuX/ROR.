@@ -18,7 +18,7 @@ class Station
   end
 
   def trains_by_type(tr_type)
-    arr = @trains.find_all{ |t| t.type == tr_type }
+    arr = @trains.find_all { |t| t.type == tr_type }
     arr.size
   end
 end
