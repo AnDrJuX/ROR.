@@ -14,11 +14,11 @@ class Main
   end
 
   def create_station
-    puts "Ведите название станции"
-    title = gets.chomp
-    station = Station.new(title)
+    puts "Ведите станцию:"
+    station = gets.chomp
+    station = Station.new(station)
     self.stations << station
-    puts "Создана станция #{title}"
+    puts "Создана станция #{station}"
   end
 
   def create_train
@@ -38,9 +38,11 @@ class Main
   end
 
   def create_new_route
-    puts "Введите название первой станции:"
+    @stations.each { |station| puts " #{station.title} " }
+    puts "Введите станцию отправления:"
     from = gets.chomp
-    puts "Введите название последней станции:"
+    @stations.each { |station| puts " #{station.title} " }
+    puts "Введите станцию прибытия:"
     to = gets.chomp
     new_route = Route.new(from, to)
     puts "Маршрут #{from} - #{to} создан успешно"
@@ -48,10 +50,14 @@ class Main
   end
 
   def add_station_to_route
-    new_route = select_route
-    puts "Введите название добавляемой станции в маршрут: "
-    new_route.add_station(gets.chomp)
-    puts "Станция добавлена в маршрут."
+    @stations.each { |station| puts " #{station.title} " }
+    puts "Выберите станцию из списка: "
+    station = gets.chomp
+    @routes.each_with_index { |route| puts " #{route}" }
+    puts "Выберите маршрут из списка: "
+    route = gets.chomp
+    route << station
+    puts "Станция #{station} добавлена в маршрут #{route}."
   end
 
   def remove_station
@@ -139,7 +145,7 @@ class Main
 
   def move_train
     train = select_train
-    if train.current_route == nil
+    if !train.current_route
       puts "Поезду не назначен маршрут. Сначала назначьте"
     else
       puts "Выберите направление движения поезда: 1. Вперед, 2. Назад"
