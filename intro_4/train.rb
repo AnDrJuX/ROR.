@@ -23,8 +23,12 @@ class Train
   end
 
   def hook(wagon)
-    @wagons << wagon
-    puts "Вагон добавлен."
+    if current_speed == 0
+      @wagons << wagon
+      puts "Вагон добавлен."
+    else
+      puts "Для добавления вагона остановите поезд."
+    end
   end
 
   def unhook(wagon)

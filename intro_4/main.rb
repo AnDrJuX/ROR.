@@ -8,8 +8,8 @@ class Main
   attr_reader :routes, :trains, :stations
 
   def initialize
-    @routes = []
-    @trains = []
+    @routes   = []
+    @trains   = []
     @stations = []
   end
 
@@ -116,83 +116,83 @@ class Main
     return puts "Ошибка. Необходимо сначала создать поезд." if self.trains.empty?
 
     puts "Выберите поезд:"
-      self.trains.each_with_index do |train, id|
-        puts "#{id}: #{train} | Train number: #{train.number}"
-      end
-      train = self.trains[gets.chomp.to_i]
-      vagon = if train.passenger?
-                PassengerVagon.new
-              elsif train.cargo?
-                CargoVagon.new
-              end
-
-      train.add_vagon(vagon)
+    self.trains.each_with_index do |train, id|
+      puts "#{id}: #{train} | Train number: #{train.number}"
     end
+    train = self.trains[gets.chomp.to_i]
+    vagon = if train.passenger?
+              PassengerVagon.new
+            elsif train.cargo?
+              CargoVagon.new
+            end
+
+    train.add_vagon(vagon)
+  end
 
 
-    def delete_wagon
-      train = select_train
-      wagon = select_wagon(train)
-      train.unhook(wagon)
-      puts train.wagons
-    end
+  def delete_wagon
+    train = select_train
+    wagon = select_wagon(train)
+    train.unhook(wagon)
+    puts train.wagons
+  end
 
-    def move_train
-      train = select_train
-      if train.current_route == nil
-        puts "Поезду не назначен маршрут. Сначала назначьте"
+  def move_train
+    train = select_train
+    if train.current_route == nil
+      puts "Поезду не назначен маршрут. Сначала назначьте"
+    else
+      puts "Выберите направление движения поезда: 1. Вперед, 2. Назад"
+      choise = gets.chomp.to_i
+      if choise == 1
+        train.move_forward
+      elsif choise == 2
+        train.move_back
       else
-        puts "Выберите направление движения поезда: 1. Вперед, 2. Назад"
-        choise = gets.chomp.to_i
-        if choise == 1
-          train.move_forward
-        elsif choise == 2
-          train.move_back
-        else
-          puts "Ошибка!!!"
-        end
-        puts "Текущая станция #{train.current_station}"
+        puts "Ошибка!!!"
       end
-    end
-
-    def list_stations_trains
-      puts "Список станций: "
-      stations.each {|station| puts station.title}
-      puts "Список поездов: "
-      trains.each do |train|
-        puts "Номер поезда: #{train.num} Тип: #{train.type}"
-      end
-    end
-
-    protected # нижеследующие методы класса необходимы лишь внутри объекта класса
-
-    attr_writer :routes, :trains, :stations
-
-    def select_route
-      puts "Выберите маршрут из списка:"
-      routes.each_index {|r| puts "#{r} - #{routes[r].route.to_s}"}
-      index_route = gets.chomp.to_i
-      routes[index_route]
-    end
-
-    def select_train
-      puts "Выберите поезд из списка:"
-      @trains.each_index {|t| puts "#{t} . #{trains[t].num} - #{trains[t].type}"}
-      index_train = gets.chomp.to_i
-      trains[index_train]
-    end
-
-    def select_wagon(train)
-      puts "Выберите вагон из состава:"
-      train.wagons.each_index {|i| puts "#{i} - #{train.wagons[i]}"}
-      index_wagon = gets.chomp.to_i
-      train.wagons[index_wagon]
+      puts "Текущая станция #{train.current_station}"
     end
   end
 
-  main = Main.new
-  loop do
-    puts " Выберите действие:
+  def list_stations_trains
+    puts "Список станций: "
+    stations.each { |station| puts station.title }
+    puts "Список поездов: "
+    trains.each do |train|
+      puts "Номер поезда: #{train.num} Тип: #{train.type}"
+    end
+  end
+
+  protected # нижеследующие методы класса необходимы лишь внутри объекта класса
+
+  attr_writer :routes, :trains, :stations
+
+  def select_route
+    puts "Выберите маршрут из списка:"
+    routes.each_index { |r| puts "#{r} - #{routes[r].route.to_s}" }
+    index_route = gets.chomp.to_i
+    routes[index_route]
+  end
+
+  def select_train
+    puts "Выберите поезд из списка:"
+    @trains.each_index { |t| puts "#{t} . #{trains[t].num} - #{trains[t].type}" }
+    index_train = gets.chomp.to_i
+    trains[index_train]
+  end
+
+  def select_wagon(train)
+    puts "Выберите вагон из состава:"
+    train.wagons.each_index { |i| puts "#{i} - #{train.wagons[i]}" }
+    index_wagon = gets.chomp.to_i
+    train.wagons[index_wagon]
+  end
+end
+
+main = Main.new
+loop do
+  puts " Выберите действие:
   1. Создать станцию
   2. Создать поезд
   3. Создать маршрут или управлять станциями в нем (добавлять, удалять)
@@ -203,27 +203,27 @@ class Main
   8. Вывести список станций и список поездов на станции
   0. ВЫХОД ИЗ ПРОГРАММЫ"
 
-    choise = gets.chomp.to_i
+  choise = gets.chomp.to_i
 
-    break if choise == 0
-    case choise
-      when 1
-        main.create_station
-      when 2
-        main.create_train
-      when 3
-        main.edit_route
-      when 4
-        main.direct_route
-      when 5
-        main.add_wagon
-      when 6
-        main.delete_wagon
-      when 7
-        main.move_train
-      when 8
-        main.list_stations_trains
-      else
-        puts "Попробуйте еще раз."
-    end
+  break if choise == 0
+  case choise
+    when 1
+      main.create_station
+    when 2
+      main.create_train
+    when 3
+      main.edit_route
+    when 4
+      main.direct_route
+    when 5
+      main.add_wagon
+    when 6
+      main.delete_wagon
+    when 7
+      main.move_train
+    when 8
+      main.list_stations_trains
+    else
+      puts "Попробуйте еще раз."
   end
+end
