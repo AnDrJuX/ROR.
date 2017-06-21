@@ -3,6 +3,8 @@ require_relative "station"
 require_relative "route"
 require_relative "passenger_wagon"
 require_relative "cargo_wagon"
+require_relative "cargo_train"
+require_relative "passenger_train"
 
 class Main
   attr_reader :routes, :trains, :stations
@@ -27,9 +29,9 @@ class Main
     puts "Выберите тип создаваемого поезда: 1. Пассажирский, 2. Грузовой"
     type = gets.chomp.to_i
     if type == 1
-      train = Train.new(num, type = "passenger")
+      train = PassengerTrain.new(num)
     elsif type == 2
-      train = Train.new(num, type = "cargo")
+      train = CargoTrain.new(num)
     else
       puts "Попробуйте еще раз."
     end
@@ -41,11 +43,13 @@ class Main
     @stations.each { |station| puts " #{station.title} " }
     puts "Введите станцию отправления:"
     from = gets.chomp
+    from_station = @stations.select { |station| station.title == from }
     @stations.each { |station| puts " #{station.title} " }
     puts "Введите станцию прибытия:"
     to = gets.chomp
-    new_route = Route.new(from, to)
-    puts "Маршрут #{from} - #{to} создан успешно"
+    to_station = @stations.select { |station| station.title == to }
+    new_route = Route.new(from_station, to_station)
+    puts "Маршрут #{from_station} - #{to_station} создан успешно"
     self.routes << new_route
   end
 
@@ -53,12 +57,22 @@ class Main
     @stations.each { |station| puts " #{station.title} " }
     puts "Выберите станцию из списка: "
     station = gets.chomp
-    @routes.each_with_index { |route| puts " #{route}" }
+    station_to_route = @stations.select { |station_to| station_to.title == station }
+    @routes.each_with_index { |route, id| puts "#{id + 1} #{route}" }
     puts "Выберите маршрут из списка: "
-    route = gets.chomp
-    route << station
-    puts "Станция #{station} добавлена в маршрут #{route}."
+    route = gets.chomp.to_i
+    route_to_add_station = @routes.select { |route_to| route_to == route }
+    route_to_add_station.add_station(station_to_route)
+    puts "Станция #{station_to_route} добавлена в маршрут #{route_to_add_station} "
   end
+
+  #Ты опять сравниваешь объекты из routes с тем, что ввел пользователь. Строка - это не объект
+
+  # Метод add_station_to_route:
+  # Нужно добавлять объекты станций в объект маршрута
+  # для этого по введенному названию станции надо найти ее объект
+  # затем по выбранному номеру маршрута найти объект маршрута
+  # и вызывав у объекта маршрута метод add_station добавить объект станции к нему
 
   def remove_station
     route = select_route
@@ -117,25 +131,6 @@ class Main
     puts train.wagons
   end
 
-
-  def add_vagon
-    return puts "Ошибка. Необходимо сначала создать поезд." if self.trains.empty?
-
-    puts "Выберите поезд:"
-    self.trains.each_with_index do |train, id|
-      puts "#{id}: #{train} | Train number: #{train.number}"
-    end
-    train = self.trains[gets.chomp.to_i]
-    vagon = if train.passenger?
-              PassengerVagon.new
-            elsif train.cargo?
-              CargoVagon.new
-            end
-
-    train.add_vagon(vagon)
-  end
-
-
   def delete_wagon
     train = select_train
     wagon = select_wagon(train)
@@ -183,7 +178,7 @@ class Main
 
   def select_train
     puts "Выберите поезд из списка:"
-    @trains.each_index { |t| puts "#{t} . #{trains[t].num} - #{trains[t].type}" }
+    trains.each_index { |t| puts "#{t} . #{trains[t].num} - #{trains[t].type}" }
     index_train = gets.chomp.to_i
     trains[index_train]
   end
