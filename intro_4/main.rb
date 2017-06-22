@@ -18,8 +18,9 @@ class Main
   def create_station
     puts "Ведите станцию:"
     station = gets.chomp
-    station = Station.new(station)
-    self.stations << station
+    object = @stations.select { |obj| obj.title == station }
+    object = Station.new(station)
+    self.stations << object
     puts "Создана станция #{station}"
   end
 
@@ -54,17 +55,23 @@ class Main
   end
 
   def add_station_to_route
-    @stations.each { |station| puts " #{station.title} " }
+    @stations.each_with_index { |station, id| puts "#{id} #{station.title} " }
     puts "Выберите станцию из списка: "
-    station = gets.chomp
+    station = self.stations[gets.chomp.to_i]
     station_to_route = @stations.select { |station_to| station_to.title == station }
-    @routes.each_with_index { |route, id| puts "#{id + 1} #{route}" }
+    self.routes.each_with_index { |route, id| puts "#{id} #{route}" }
     puts "Выберите маршрут из списка: "
-    route = gets.chomp.to_i
-    route_to_add_station = @routes.select { |route_to| route_to == route }
-    route_to_add_station.add_station(station_to_route)
-    puts "Станция #{station_to_route} добавлена в маршрут #{route_to_add_station} "
+    route = self.routes[gets.chomp.to_i]
+    route.add_station(station_to_route)
+    puts "Станция #{station_to_route} добавлена в маршрут #{route} "
   end
+
+
+
+  #Подсказка: у тебя все маршруты хранятся в массиве. Ты, фактически,
+  # у пользователя запрашиваешь индекс (только не с нуля, а с единицы),
+  # по этому индексу и нужно получить маршрут из массива. select тут не нужен,
+  # т.к. получение элемента по индексу - это стандартная операция, для этого мы используем квадратные скобки.
 
   #Ты опять сравниваешь объекты из routes с тем, что ввел пользователь. Строка - это не объект
 
