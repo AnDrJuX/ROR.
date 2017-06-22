@@ -58,12 +58,12 @@ class Main
     @stations.each_with_index { |station, id| puts "#{id} #{station.title} " }
     puts "Выберите станцию из списка: "
     station = self.stations[gets.chomp.to_i]
-    station_to_route = @stations.select { |station_to| station_to.title == station }
+    #station_to_route = @stations.select { |station_to| station_to.title == station }
     self.routes.each_with_index { |route, id| puts "#{id} #{route}" }
     puts "Выберите маршрут из списка: "
     route = self.routes[gets.chomp.to_i]
-    route.add_station(station_to_route)
-    puts "Станция #{station_to_route} добавлена в маршрут #{route} "
+    route.add_station(station)
+    puts "Станция #{station} добавлена в маршрут #{route} "
   end
 
 
