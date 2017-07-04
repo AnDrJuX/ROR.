@@ -5,60 +5,76 @@ require_relative "passenger_wagon"
 require_relative "cargo_wagon"
 require_relative "cargo_train"
 require_relative "passenger_train"
+require_relative "module"
+require_relative "instance_counter"
 
 class Main
   attr_reader :routes, :trains, :stations
 
   def initialize
-    @routes   = []
-    @trains   = []
+    @routes = []
+    @trains = []
     @stations = []
   end
 
   def create_station
     puts "Ведите станцию:"
     station = gets.chomp
-    object = @stations.select { |obj| obj.title == station }
+    object = @stations.select {|obj| obj.title == station}
     object = Station.new(station)
     self.stations << object
     puts "Создана станция #{station}"
   end
 
   def create_train
-    puts "Введите номер поезда"
-    num = gets.chomp
-    puts "Выберите тип создаваемого поезда: 1. Пассажирский, 2. Грузовой"
-    type = gets.chomp.to_i
+    num_format = /\A[a-zа-я0-9]{3}-*[a-zа-я0-9]{2}\z/i
+    begin
+      puts "Введите номер поезда"
+      num = gets.chomp
+      raise if num !~ num_format
+    rescue
+      puts "Номер поезда не соответствует формату! Попробуйте еще раз"
+      retry
+    end
+
+    begin
+      puts "Выберите тип создаваемого поезда: 1. Пассажирский, 2. Грузовой"
+      type = gets.chomp.to_i
+      raise if type < 1 || type > 2
+    rescue
+      puts "Введено неправильное значение! введите 1 или 2 "
+      retry
+    end
+
     if type == 1
       train = PassengerTrain.new(num)
     elsif type == 2
       train = CargoTrain.new(num)
-    else
-      puts "Попробуйте еще раз."
     end
     self.trains << train
     puts "Создан поезд: #{num}, #{type}."
   end
 
+
   def create_new_route
-    @stations.each { |station| puts " #{station.title} " }
+    @stations.each {|station| puts " #{station.title} "}
     puts "Введите станцию отправления:"
     from = gets.chomp
-    from_station = @stations.select { |station| station.title == from }
-    @stations.each { |station| puts " #{station.title} " }
+    from_station = @stations.select {|station| station.title == from}
+    @stations.each {|station| puts " #{station.title} "}
     puts "Введите станцию прибытия:"
     to = gets.chomp
-    to_station = @stations.select { |station| station.title == to }
+    to_station = @stations.select {|station| station.title == to}
     new_route = Route.new(from_station, to_station)
     puts "Маршрут #{from_station} - #{to_station} создан успешно"
     self.routes << new_route
   end
 
   def add_station_to_route
-    @stations.each_with_index { |station, id| puts "#{id} #{station.title} " }
+    @stations.each_with_index {|station, id| puts "#{id} #{station.title} "}
     puts "Выберите станцию из списка: "
     station = self.stations[gets.chomp.to_i]
-    self.routes.each_with_index { |route, id| puts "#{id} #{route}" }
+    self.routes.each_with_index {|route, id| puts "#{id} #{route}"}
     puts "Выберите маршрут из списка: "
     route = self.routes[gets.chomp.to_i]
     route.add_station(station)
@@ -147,9 +163,10 @@ class Main
     end
   end
 
+
   def list_stations_trains
     puts "Список станций: "
-    stations.each { |station| puts station.title }
+    stations.each {|station| puts station.title}
     puts "Список поездов: "
     trains.each do |train|
       puts "Номер поезда: #{train.num} Тип: #{train.type}"
@@ -162,25 +179,27 @@ class Main
 
   def select_route
     puts "Выберите маршрут из списка:"
-    routes.each_index { |r| puts "#{r} - #{routes[r].route.to_s}" }
+    routes.each_index {|r| puts "#{r} - #{routes[r].route.to_s}"}
     index_route = gets.chomp.to_i
     routes[index_route]
   end
 
   def select_train
     puts "Выберите поезд из списка:"
-    trains.each_index { |t| puts "#{t} . #{trains[t].num} - #{trains[t].type}" }
+    trains.each_index {|t| puts "#{t} . #{trains[t].num} - #{trains[t].type}"}
     index_train = gets.chomp.to_i
     trains[index_train]
   end
 
   def select_wagon(train)
     puts "Выберите вагон из состава:"
-    train.wagons.each_index { |i| puts "#{i} - #{train.wagons[i]}" }
+    train.wagons.each_index {|i| puts "#{i} - #{train.wagons[i]}"}
     index_wagon = gets.chomp.to_i
     train.wagons[index_wagon]
   end
+
 end
+
 
 main = Main.new
 loop do

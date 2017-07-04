@@ -1,31 +1,31 @@
 class Station
+
+  include InstanceCounter
+
+  @@stations = []
+
+  def self.all
+    @@stations
+  end
+
+  def self.find(title)
+    @@stations[title]
+  end
+
   attr_reader :title
-
-  TITLE = /\A[a-z]\z/i
-
-  @@stations = {}
 
   def initialize(title)
     @title = title
     @trains = []
-    @@stations[title] = self
+    @@stations << self
+    register_instance
     validate!
-  rescue
-    raise
   end
 
   def valid?
     validate!
   rescue
     false
-  end
-
-  def self.all
-    @@stations
-  end
-
-  def self.find(name)
-    @@stations[name]
   end
 
   def take_train(train)
@@ -48,9 +48,8 @@ class Station
   protected
 
   def validate!
-    raise "Name should be 1 or more symbol!" if self.title !~ TITLE
+    raise "Название станции не может быть пустым!" if title.length == 0
     true
   end
-
 
 end
