@@ -4,8 +4,6 @@ class Route
   def initialize(from, to)
     @route = [from, to]
     validate!
-  rescue
-    raise
   end
 
   def valid?
@@ -33,10 +31,12 @@ class Route
 
   protected
 
-  #Тут хорошо бы добавить валидации на то, что переданные аргументы - это объекты класса Station, а не что-то еще.
-
+  # Тут хорошо бы добавить валидации на то, что переданные аргументы - это объекты класса Station, а не что-то еще.
+  # Тебе нужно проверить каждый элемент в массиве на то, что он именно объект класса Station.
+  # У объекта можно проверить класс через метод is_a?
   def validate!
-    raise "Passed arguments is not objects of class Station!" if @route.include?()
+    raise "Passed arguments is not objects of class Station!" if !@route.first.is_a?(Station) || !@route.last.is_a?(Station)
+
     true
   end
 end

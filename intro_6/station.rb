@@ -48,7 +48,7 @@ class Station
   protected
 
   def validate!
-    raise "Название станции не может быть пустым!" if title.length == 0
+    raise "Название станции не может быть пустым!" if title.nil? || title.length == 0
     true
   end
 

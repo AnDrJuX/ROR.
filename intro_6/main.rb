@@ -214,27 +214,33 @@ loop do
   8. Вывести список станций и список поездов на станции
   0. ВЫХОД ИЗ ПРОГРАММЫ"
 
-  choise = gets.chomp.to_i
+  begin
 
-  break if choise == 0
-  case choise
-    when 1
-      main.create_station
-    when 2
-      main.create_train
-    when 3
-      main.edit_route
-    when 4
-      main.direct_route
-    when 5
-      main.add_wagon
-    when 6
-      main.delete_wagon
-    when 7
-      main.move_train
-    when 8
-      main.list_stations_trains
-    else
-      puts "Попробуйте еще раз."
+    choise = gets.chomp.to_i
+
+    break if choise == 0
+    case choise
+      when 1
+        main.create_station
+      when 2
+        main.create_train
+      when 3
+        main.edit_route
+      when 4
+        main.direct_route
+      when 5
+        main.add_wagon
+      when 6
+        main.delete_wagon
+      when 7
+        main.move_train
+      when 8
+        main.list_stations_trains
+      else
+        puts "Попробуйте еще раз."
+    end
+  rescue StandardError => e
+    puts e.message
   end
+
 end
