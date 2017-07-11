@@ -194,7 +194,7 @@ class Main
   def stations_train_list
     station = select_station
     puts "Список поездов на станции: "
-    station.method_trains { |train| puts "Номер: #{train.num}, тип: #{train.type}, вагонов: #{train.wagons.size}" }
+    station.each_train { |train| puts "Номер: #{train.num}, тип: #{train.type}, вагонов: #{train.wagons.size}" }
   end
 
   def train_wagon_list

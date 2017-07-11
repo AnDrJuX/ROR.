@@ -5,19 +5,19 @@ class PassengerWagon #< Wagon
     @num = num
     @type = :passenger
     @seat = seat
-    @peoples = 0
+    @busy_place = 0
   end
 
   def add_people
-    @peoples += 1 unless free_seat == 0
+    @busy_place += 1 if !free_seat == 0
   end
 
   def free_seat
-    @seat - @peoples
+    @seat - @busy_place
   end
 
   def busy_place
-    @seat - free_seat
+    @seat - (@seat - @busy_place) == @busy_place
   end
 
 end

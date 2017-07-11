@@ -45,7 +45,7 @@ class Station
     arr.size
   end
 
-  def method_trains
+  def each_train
     @trains.each { |train| yield train }
   end
 

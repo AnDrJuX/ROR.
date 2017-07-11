@@ -5,19 +5,20 @@ class CargoWagon #< Wagon
     @num = num
     @type = :cargo
     @volume = volume
-    @something = 0
+    @occupied_volume = 0
   end
 
   def load_a_wagon(vol)
-    @something += vol unless free_volume == 0
+    @occupied_volume += vol if !free_volume == 0
   end
 
   def free_volume
-    @volume - @something
+    @volume - @occupied_volume
   end
 
   def occupied_volume
-    @volume - free_volume
+    @volume - (@volume - @occupied_volume) == @occupied_volume
   end
 
 end
+
