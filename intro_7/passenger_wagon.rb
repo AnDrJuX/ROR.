@@ -1,6 +1,6 @@
 class PassengerWagon #< Wagon
 
-  attr_reader :type, :seat, :peoples, :num
+  attr_reader :type, :seat, :busy_place, :num
   def initialize(num, seat)
     @num = num
     @type = :passenger
@@ -9,15 +9,11 @@ class PassengerWagon #< Wagon
   end
 
   def add_people
-    @busy_place += 1 if !free_seat == 0
+    @busy_place += 1 if free_seat != 0
   end
 
   def free_seat
     @seat - @busy_place
-  end
-
-  def busy_place
-    @seat - (@seat - @busy_place) == @busy_place
   end
 
 end

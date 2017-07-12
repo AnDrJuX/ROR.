@@ -210,6 +210,11 @@ class Main
     end
   end
 
+  def wagon_space(wagon)
+    puts "#{wagon.busy_volume} #{wagon.free_volume}" if wagon.type.eql?(:cargo)
+    puts "#{wagon.take_seats} #{wagon.free_seats}" if wagon.type.eql?(:passenger)
+  end
+
 
   protected # нижеследующие методы класса необходимы лишь внутри объекта класса
 
