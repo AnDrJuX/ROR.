@@ -12,7 +12,6 @@ class Route
     false
   end
 
-
   def add_station(station)
     @route.insert(-2, station)
   end
@@ -25,15 +24,16 @@ class Route
     end
   end
 
-  def get_station_list
+  def station_list
     @route.each { |e| puts e }
   end
 
   protected
 
   def validate!
-    raise "Passed arguments is not objects of class Station!" if !self.route.first.is_a?(Station) || !self.route.last.is_a?(Station)
-
+    if !route.first.is_a?(Station) || !route.last.is_a?(Station)
+      raise 'Passed arguments is not objects of class Station!'
+    end
     true
   end
 end

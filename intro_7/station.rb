@@ -1,5 +1,4 @@
 class Station
-
   include InstanceCounter
 
   @@stations = []
@@ -36,7 +35,7 @@ class Station
     @trains.delete(train)
   end
 
-  def get_train_list
+  def train_list
     @trains.each { |t| puts t }
   end
 
@@ -52,8 +51,7 @@ class Station
   protected
 
   def validate!
-    raise "Название станции не может быть пустым!" if title.nil? || title.length == 0
+    raise 'Название станции не может быть пустым!' if title.nil? || title.empty?
     true
   end
-
 end

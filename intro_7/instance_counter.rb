@@ -23,7 +23,6 @@ module InstanceCounter
   end
 
   module InstanceMethods
-
     def print_class
       puts self.class
     end

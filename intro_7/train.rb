@@ -1,31 +1,32 @@
-require_relative "module"
-require_relative "instance_counter"
+require_relative 'module'
+require_relative 'instance_counter'
 
 class Train
-
   include CompanyTitle
   include InstanceCounter
 
   @@instances = 0
   @@trains = {}
 
-  attr_reader :current_speed, :wagons, :current_station, :current_route, :num, :type
+  attr_reader :current_speed, :wagons,
+              :current_station, :current_route,
+              :num, :type
 
-  NUM_FORMAT =  /\A[a-z0-9]{3}-*[a-z0-9]{2}\z/i
+  NUM_FORMAT = /\A[a-z0-9]{3}-*[a-z0-9]{2}\z/i
 
   def initialize(num, type)
     @num = num
     @type = type
     @current_speed = 0
     @wagons = []
-    @@num = num
+    @num = num
     validate!
     @@trains[num] = self
     register_instance
   end
 
   def valid?
-    self.validate!
+    validate!
   rescue
     false
   end
@@ -48,19 +49,17 @@ class Train
   end
 
   def hook(wagon)
-    if current_speed == 0
+    if current_speed.zero?
       @wagons << wagon
-      puts "Вагон добавлен."
+      puts 'Вагон добавлен.'
     else
-      puts "Для добавления вагона остановите поезд."
+      puts 'Для добавления вагона остановите поезд.'
     end
   end
 
   def unhook(wagon)
-    if current_speed == 0 && wagons.size > 0
-      @wagons.delete(wagon)
-      puts "Вагон отцеплен."
-    end
+    puts 'Вагон отцеплен.'
+    @wagons.delete(wagon) if current_speed.zero? && !wagons.empty?
   end
 
   def move_back
@@ -68,7 +67,8 @@ class Train
       ind = current_route.route.index current_station
       @current_station = current_route.route[ind - 1]
     else
-      puts "Станция #{@current_station} является отправной. Поезд не может двигаться назад"
+      puts "Станция #{@current_station} является отправной.
+            Поезд не может двигаться назад"
     end
   end
 
@@ -77,7 +77,8 @@ class Train
       ind = current_route.route.index current_station
       @current_station = current_route.route[ind + 1]
     else
-      puts "Станция #{@current_station} является конечной. Поезд не может двигаться вперед"
+      puts "Станция #{@current_station} является конечной.
+            Поезд не может двигаться вперед"
     end
   end
 
@@ -88,9 +89,8 @@ class Train
   protected
 
   def validate!
-    raise "Number has invalid format" if num !~ NUM_FORMAT
-    raise "Type is not valid!" unless type == :passenger || type == :cargo
+    raise 'Number has invalid format' if num !~ NUM_FORMAT
+    raise 'Type is not valid!' unless type == :passenger || type == :cargo
     true
   end
-
 end
