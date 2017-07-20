@@ -1,9 +1,11 @@
 require_relative 'module'
 require_relative 'instance_counter'
+require_relative 'validation'
 
 class Train
   include CompanyTitle
   include InstanceCounter
+  include Validate
 
   @@instances = 0
   @@trains = {}

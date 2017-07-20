@@ -1,4 +1,8 @@
+require_relative 'validation'
+
 class Route
+  include Validate
+
   attr_accessor :route
 
   def initialize(from, to)

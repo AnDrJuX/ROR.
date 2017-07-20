@@ -1,5 +1,8 @@
+require_relative 'validation'
+
 class Station
   include InstanceCounter
+  include Validate
 
   @@stations = []
 
